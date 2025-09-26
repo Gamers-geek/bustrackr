@@ -1,14 +1,16 @@
 'use client'
 
-import { getNextDepartures, getStop } from "@/lib/api";
-import { modes, statusClasses, statusTexts } from "@/components/constants";
+import {getNextDepartures, getStop} from "@/lib/api";
+import {modes} from "@/components/constants";
 import {use, useEffect, useState} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotate } from "@fortawesome/free-solid-svg-icons/faRotate";
-import { faStar } from "@fortawesome/free-solid-svg-icons/faStar";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faRotate} from "@fortawesome/free-solid-svg-icons/faRotate";
+import {faStar} from "@fortawesome/free-solid-svg-icons/faStar";
 import useLocalStorage from "@/hooks/localStorageHook";
+import RailJourney from "@/components/RailJourney";
+import Journey from "@/components/Journey";
 
-export default function StopPage({ params }) {
+export default function StopPage({params}) {
     const unwrappedParams = use(params)
     const stopCode = unwrappedParams.code
     const [stop, setStop] = useState(null);
@@ -78,18 +80,19 @@ export default function StopPage({ params }) {
                         className={`${isFavourite ? "bg-red-500 hover:bg-red-600" : "bg-green-600 hover:bg-green-700"} text-white px-4 py-2 rounded-lg shadow cursor-pointer`}
                         onClick={toggleFavourite}
                     >
-                        <FontAwesomeIcon icon={faStar} /> {isFavourite ? "Supprimer des favoris" : "Ajouter aux favoris"}
+                        <FontAwesomeIcon icon={faStar}/> {isFavourite ? "Supprimer des favoris" : "Ajouter aux favoris"}
                     </button>
                     <button
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow cursor-pointer"
                         onClick={fetchNextDepartures}
                     >
-                        <FontAwesomeIcon icon={faRotate} className={reloading ? "rotating" : ""} /> Actualiser
+                        <FontAwesomeIcon icon={faRotate} className={reloading ? "rotating" : ""}/> Actualiser
                     </button>
                 </div>
             </div>
 
-            <div className={`flex gap-4 border-b border-zinc-200 dark:border-zinc-700 ${nextDepartures === null ? "hidden" : ""}`}>
+            <div
+                className={`flex gap-4 border-b border-zinc-200 dark:border-zinc-700 ${nextDepartures === null ? "hidden" : ""}`}>
                 {nextDepartures &&
                     Object.keys(nextDepartures).map((mode, i) => (
                         <button
@@ -106,75 +109,11 @@ export default function StopPage({ params }) {
                 {nextDepartures === null ? (
                     <p>Chargement en cours</p>
                 ) : (
-                    nextDepartures[selectedMode]?.map((dep, i) => (
-                        <div key={i} className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-2xl shadow space-y-3">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="font-semibold mb-1">
-                                        <span
-                                            style={{
-                                                color: `#${dep.line.textColor}`,
-                                                backgroundColor: `#${dep.line.backgroundColor}`,
-                                            }}
-                                            className="px-1.5 py-0.5 mr-1 rounded"
-                                        >
-                                            {dep.line.shortName}
-                                        </span>{" "}
-                                        <span className={(dep.status === "cancelled" || dep.status === "missed") ? "line-through" : ""}>
-                                            {dep.destinationName}
-                                        </span>
-                                    </p>
-
-                                    {/* Affichage selon le status */}
-                                    {dep.status === "onTime" ? (
-                                        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                                            Prochain passage : {dep.expectedTime}
-                                        </p>
-                                    ) : dep.status === "delayed" || dep.status === "early" ? (
-                                        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                                            Théorique : <span className="font-medium">{dep.aimedTime}</span> ·
-                                            Réel : <span className="font-medium">{dep.expectedTime}</span>
-                                        </p>
-                                    ) : dep.status === "cancelled" || dep.status === "missed" ? (
-                                        <p className="text-sm text-zinc-500 dark:text-zinc-400 line-through">
-                                            Prochain passage : {dep.aimedTime}
-                                        </p>
-                                    ) : (
-                                        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                                            Prochain passage : {dep.aimedTime}
-                                        </p>
-                                    )}
-                                </div>
-                                <span className={`px-3 py-1 text-sm rounded-full ${statusClasses[dep.status]}`}>
-                                    {statusTexts[dep.status]}{" "}
-                                    {dep.status === "early" || dep.status === "delayed" ? `(${Math.abs(dep.delay)} min)` : ""}
-                                </span>
-                            </div>
-
-                            {dep.mode === "rail" && (
-                                <div className="grid grid-cols-2 gap-4 text-sm">
-                                    <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
-                                        <p className="text-zinc-500 dark:text-zinc-300">Quai</p>
-                                        <p className="font-semibold text-xl">{ dep.railData.quay }</p>
-                                    </div>
-                                    <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
-                                        <p className="text-zinc-500 dark:text-zinc-300">Mission</p>
-                                        <p className="font-semibold text-lg">{ dep.railData.missionCode }</p>
-                                        <p className="text-xs text-zinc-500">({ dep.railData.trainSize })</p>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="text-right">
-                                <button
-                                    onClick={() => console.log("toggleInfos('trainORET')")}
-                                    className="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                                >
-                                    ℹ️ Infos
-                                </button>
-                            </div>
-                        </div>
-                    ))
+                    nextDepartures[selectedMode]?.map((dep, i) => {
+                        dep.line.mode === "rail" ?
+                            (<RailJourney departure={dep} key={i}/>)
+                            : (<Journey departure={dep}/>)
+                    })
                 )}
             </section>
         </div>
