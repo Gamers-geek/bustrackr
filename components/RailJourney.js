@@ -50,7 +50,7 @@ export default function RailJourney({departure}) {
                 (<div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
                         <p className="text-zinc-500 dark:text-zinc-300">Quai</p>
-                        <p className="font-semibold text-xl">{departure.railData.quay}</p>
+                        <p className="font-semibold text-xl">{departure.railData.quay !== "unknown" ? departure.railData.quay : "Inconnu"}</p>
                     </div>
                     <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
                         <p className="text-zinc-500 dark:text-zinc-300">Mission</p>
