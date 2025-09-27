@@ -21,7 +21,6 @@ export default function RailJourney({departure}) {
                                         </span>
                     </p>
 
-                    {/* Affichage selon le status */}
                     {departure.status === "onTime" ? (
                         <p className="text-sm text-zinc-500 dark:text-zinc-400">
                             Prochain passage : {departure.expectedTime}
@@ -47,17 +46,29 @@ export default function RailJourney({departure}) {
                                 </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
-                    <p className="text-zinc-500 dark:text-zinc-300">Quai</p>
-                    <p className="font-semibold text-xl">{departure.railData.quay}</p>
-                </div>
-                <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
-                    <p className="text-zinc-500 dark:text-zinc-300">Mission</p>
-                    <p className="font-semibold text-lg">{departure.railData.missionCode}</p>
-                    <p className="text-xs text-zinc-500">({departure.railData.trainSize})</p>
-                </div>
-            </div>
+            { departure.railData ?
+                (<div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
+                        <p className="text-zinc-500 dark:text-zinc-300">Quai</p>
+                        <p className="font-semibold text-xl">{departure.railData.quay}</p>
+                    </div>
+                    <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
+                        <p className="text-zinc-500 dark:text-zinc-300">Mission</p>
+                        <p className="font-semibold text-lg">{departure.railData.missionCode}</p>
+                        <p className="text-xs text-zinc-500">({departure.railData.trainSize})</p>
+                    </div>
+                </div>) : (
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
+                            <p className="text-zinc-500 dark:text-zinc-300">Quai</p>
+                            <p className="font-semibold text-xl">Inconnu</p>
+                        </div>
+                        <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
+                            <p className="text-zinc-500 dark:text-zinc-300">Code mission</p>
+                            <p className="font-semibold text-lg">Inconnu</p>
+                        </div>
+                    </div>
+                )}
 
             <div className="text-right">
                 <button
