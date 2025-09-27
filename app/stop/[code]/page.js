@@ -82,7 +82,7 @@ export default function StopPage({params}) {
 
                     {/* Icône infos arrêt */}
                     <button
-                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer"
                         onClick={() => setShowStopInfos(true)}
                         title="Informations sur l'arrêt"
                     >
@@ -142,14 +142,17 @@ export default function StopPage({params}) {
             <section className="space-y-4 pt-4">
                 {nextDepartures === null ? (
                     <p>Chargement en cours</p>
-                ) : (
-                    nextDepartures[selectedMode]?.map((dep, i) => {
-                        if (dep.line.data.mode === "rail")
-                            return (<RailJourney departure={dep} key={i}/>)
-                        else
-                            return (<Journey departure={dep} key={i}/>)
-                    })
-                )}
+                ) : nextDepartures[selectedMode].length > 0 ?
+                    (
+                        nextDepartures[selectedMode]?.map((dep, i) => {
+                            if (dep.line.data.mode === "rail")
+                                return (<RailJourney departure={dep} key={i}/>)
+                            else
+                                return (<Journey departure={dep} key={i}/>)
+                        })
+                    )
+                    :
+                    <p>Aucun prochain passage.</p>}
             </section>
         </div>
     );

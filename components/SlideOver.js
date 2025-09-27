@@ -29,7 +29,7 @@ export default function StopInfoPanel({show, onClose, stop}) {
                         Infos arrêt
                     </h2>
                     <button
-                        className="text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                        className="text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer"
                         onClick={onClose}
                     >
                         <FontAwesomeIcon icon={faXmark} size="lg"/>
