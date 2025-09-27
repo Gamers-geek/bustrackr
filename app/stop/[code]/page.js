@@ -11,6 +11,7 @@ import RailJourney from "@/components/RailJourney";
 import Journey from "@/components/Journey";
 import {faCircleInfo} from "@fortawesome/free-solid-svg-icons/faCircleInfo";
 import StopInfoPanel from "@/components/SlideOver";
+import {faStarHalfStroke} from "@fortawesome/free-solid-svg-icons/faStarHalfStroke";
 
 export default function StopPage({params}) {
     const unwrappedParams = use(params)
@@ -99,14 +100,15 @@ export default function StopPage({params}) {
                         } text-white px-4 py-2 rounded-lg shadow cursor-pointer`}
                         onClick={toggleFavourite}
                     >
-                        <FontAwesomeIcon icon={faStar}/>{" "}
+                        <FontAwesomeIcon icon={isFavourite ? faStarHalfStroke : faStar}/>{" "}
                         {isFavourite ? "Supprimer des favoris" : "Ajouter aux favoris"}
                     </button>
 
                     {/* Bouton actualiser */}
                     <button
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow cursor-pointer"
+                        className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow ${reloading ? "cursor-not-allowed" : "cursor-pointer"}`}
                         onClick={fetchNextDepartures}
+                        disabled={reloading}
                     >
                         <FontAwesomeIcon
                             icon={faRotate}
