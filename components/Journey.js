@@ -66,7 +66,6 @@ export default function Journey({departure}) {
                             <li>♿ Accessible aux PMR : {accessibilityState[departure.line.data.accessibility]}</li>
                             <li>🦻 Présence de signaux sonores
                                 : {accessibilityState[departure.line.data.audiblesigns]}</li>
-                            <li>👶 Poussettes autorisées</li>
                         </ul>
                     </div>
                 </div>)
