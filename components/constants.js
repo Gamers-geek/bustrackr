@@ -2,7 +2,7 @@ export const order = {
     bus: 1,
     metro: 2,
     rail: 3,
-    tram:4,
+    tram: 4,
     funicular: 5
 }
 
@@ -36,4 +36,11 @@ export const statusClasses = {
     notExpected: `bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200`,
     departed: `bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200`,
     arrived: `bg-green-100 text-green-100 dark:bg-green-100 dark:text-green-100`,
+}
+
+export const accessibilityState = {
+    "true": "Conforme",
+    "partial": "Partielle",
+    "false": "Non conforme",
+    "unknown": "Inconnue",
 }
