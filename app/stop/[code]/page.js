@@ -110,7 +110,7 @@ export default function StopPage({params}) {
                     <p>Chargement en cours</p>
                 ) : (
                     nextDepartures[selectedMode]?.map((dep, i) => {
-                        if(JSON.parse(dep.line.data).mode === "rail")
+                        if (dep.line.data.mode === "rail")
                             return (<RailJourney departure={dep} key={i}/>)
                         else
                             return (<Journey departure={dep} key={i}/>)

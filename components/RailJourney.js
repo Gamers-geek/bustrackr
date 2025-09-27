@@ -1,6 +1,10 @@
-import {statusClasses, statusTexts} from "@/components/constants";
+'use client'
+
+import {accessibilityState, statusClasses, statusTexts} from "@/components/constants";
+import {useState} from "react";
 
 export default function RailJourney({departure}) {
+    const [open, setOpen] = useState(false);
     return (
         <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-2xl shadow space-y-3">
             <div className="flex items-center justify-between">
@@ -46,7 +50,7 @@ export default function RailJourney({departure}) {
                                 </span>
             </div>
 
-            { departure.railData ?
+            {departure.railData ?
                 (<div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
                         <p className="text-zinc-500 dark:text-zinc-300">Quai</p>
@@ -72,10 +76,24 @@ export default function RailJourney({departure}) {
 
             <div className="text-right">
                 <button
-                    className="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer">
+                    className="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer"
+                    onClick={() => setOpen(!open)}>
                     ℹ️ Infos
                 </button>
             </div>
+            {open ?
+                (<div className={`space-y-3`}>
+                    <div className="bg-zinc-100 dark:bg-zinc-700 p-3 rounded-xl">
+                        <h3 className="font-semibold mb-1">Accessibilité</h3>
+                        <ul className="text-sm text-zinc-600 dark:text-zinc-200">
+                            <li>♿ Accessible aux PMR : {accessibilityState[departure.line.data.accessibility]}</li>
+                            <li>🦻 Présence de signaux sonores
+                                : {accessibilityState[departure.line.data.audiblesigns]}</li>
+                        </ul>
+                    </div>
+                </div>)
+                : ""
+            }
         </div>
     )
 }
