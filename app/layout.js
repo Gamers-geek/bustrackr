@@ -48,7 +48,8 @@ export default function RootLayout({children}) {
             {children}
         </main>
         <footer className="mt-10 bg-white dark:bg-zinc-950 text-zinc-500 dark:text-zinc-400 py-4 text-center">
-            © 2025 BusTrackr – Créé par Clément L.
+            © 2025 BusTrackr – Créé par <a href="https://clement-logan.fr" target={"_blank"} rel={"noopener noreferrer"}
+                                           className="underline hover:text-blue-500">Clément L.</a>
         </footer>
         </body>
         </html>
